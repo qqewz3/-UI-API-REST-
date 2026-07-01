@@ -1,0 +1,336 @@
+{
+  "info": {
+    "_postman_id": "7516ea1e-5b45-424a-9535-f71a69dd2e33",
+    "name": "Steam",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55612872",
+    "_collection_link": "https://go.postman.co/collection/55612872-7516ea1e-5b45-424a-9535-f71a69dd2e33?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GetGlobalAchievementPercentages",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа строго 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"JSON содержит массив достижений игры Dying Light 2\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.achievementpercentages.achievements).to.be.an('array');\r",
+              "});\r",
+              "pm.test(\"Первое достижение имеет валидный ID\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.achievementpercentages.achievements[0].name).to.include(\"ACH_\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid=534380&key={{api_key}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "ISteamUserStats",
+            "GetGlobalAchievementPercentagesForApp",
+            "v0002",
+            ""
+          ],
+          "query": [
+            {
+              "key": "gameid",
+              "value": "534380"
+            },
+            {
+              "key": "key",
+              "value": "{{api_key}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetOwnedGames",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. Проверяем успешный статус-код ответа сервера\r",
+              "pm.test(\"Статус ответа равен 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// 2. Проверяем, что структура ответа содержит массив с играми\r",
+              "pm.test(\"Ответ содержит массив купленных игр\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.response.games).to.be.an('array');\r",
+              "});\r",
+              "\r",
+              "// 3. Проверяем бизнес-логику: количество игр совпадает с размером массива\r",
+              "pm.test(\"Количество игр в заголовке совпадает с массивом\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const declaredCount = jsonData.response.game_count;\r",
+              "    const actualCount = jsonData.response.games.length;\r",
+              "    pm.expect(declaredCount).to.eql(actualCount);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/IPlayerService/GetOwnedGames/v0001/?key={{api_key}}&steamid=76561198312826588&include_appinfo=true",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "IPlayerService",
+            "GetOwnedGames",
+            "v0001",
+            ""
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "steamid",
+              "value": "76561198312826588"
+            },
+            {
+              "key": "include_appinfo",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetOwnedGames-Negative",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. Проверяем, что сервер вернул ошибку клиента 400 Bad Request\r",
+              "pm.test(\"Статус ответа строго 400 Bad Request\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Тело ответа содержит сообщение об ошибке роутинга\", function () {\r",
+              "    pm.response.to.have.body; // Проверяем, что тело вообще есть\r",
+              "    pm.expect(pm.response.text()).to.include(\"Missing required routing parameter\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/IPlayerService/GetOwnedGames/v0001/?key={{api_key}}&steamid=invalid_user_id_test&include_appinfo=true",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "IPlayerService",
+            "GetOwnedGames",
+            "v0001",
+            ""
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "steamid",
+              "value": "invalid_user_id_test"
+            },
+            {
+              "key": "include_appinfo",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetPlayerSummaries",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. Проверяем, что сервер Steam вообще живой и отвечает кодом 200\r",
+              "pm.test(\"Статус ответа строго 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// 2. Проверяем, что бэкенд не сломал структуру и вернул именно массив (список) игроков\r",
+              "pm.test(\"Ответ содержит массив players\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.response.players).to.be.an('array').that.is.not.empty;\r",
+              "});\r",
+              "\r",
+              "// 3. Проверяем, что Стим вернул данные именно по нашему ID (защита от склеивания данных)\r",
+              "pm.test(\"SteamID игрока в ответе совпадает с запрашиваемым\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.response.players[0].steamid).to.eql(\"76561198312826588\");\r",
+              "});\r",
+              "\r",
+              "// 4. Проверяем бизнес-логику: профиль должен быть публичным (visibility state = 3)\r",
+              "pm.test(\"Профиль является публичным (communityvisibilitystate = 3)\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.response.players[0].communityvisibilitystate).to.eql(3);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/ISteamUser/GetPlayerSummaries/v0002/?key={{api_key}}&steamids=76561198312826588",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "ISteamUser",
+            "GetPlayerSummaries",
+            "v0002",
+            ""
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "steamids",
+              "value": "76561198312826588"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetPlayerSummaries-Negative",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. Проверяем, что сервер защищает данные и возвращает 403 Forbidden\r",
+              "pm.test(\"Статус ответа строго 403 Forbidden\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});\r",
+              "\r",
+              "// 2. Проверяем, что в HTML-ответе есть четкое предупреждение о неверном ключе\r",
+              "pm.test(\"Тело ответа содержит сообщение об ошибке доступа\", function () {\r",
+              "    pm.response.to.have.body;\r",
+              "    pm.expect(pm.response.text().toLowerCase()).to.include(\"forbidden\");\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/ISteamUser/GetPlayerSummaries/v0002/?key=12312312&steamids=76561198312826588",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "ISteamUser",
+            "GetPlayerSummaries",
+            "v0002",
+            ""
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "12312312"
+            },
+            {
+              "key": "steamids",
+              "value": "76561198312826588"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "api_key",
+      "secret": true
+    },
+    {
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}
