@@ -136,8 +136,8 @@ newman run collections/Trello.postman_collection.json -e environments/trello.jso
 Ошибок: 0
 
 Платформа: Steam
-Тестов: 3
-Пройдено: 3
+Тестов: 13
+Пройдено: 13
 Ошибок: 0
 
 ### Скриншоты успешного прогона
