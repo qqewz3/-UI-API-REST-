@@ -1,0 +1,6 @@
+# Не загружать файлы с ключами
+environments/trello.json
+environments/steam.json
+# Не загружать отчеты (содержат ключи в URL)
+reports/*.html
+reports/*.json

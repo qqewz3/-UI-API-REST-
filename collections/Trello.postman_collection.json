@@ -1,0 +1,321 @@
+{
+  "info": {
+    "_postman_id": "745b313e-8f04-4d9b-8141-25896bf00181",
+    "name": "Trello",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55612872",
+    "_collection_link": "https://go.postman.co/collection/55612872-745b313e-8f04-4d9b-8141-25896bf00181?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "CreateNewBoard",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 200 OK — доска создана\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "//Вытаскиваем ID новой доски и записываем его в память коллекции\r",
+              "const jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"board_id\", jsonData.id);\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}boards/?key={{API_key}}&token={{API_token}}&name=QA New Board",
+          "host": [
+            "{{base_url}}boards"
+          ],
+          "path": [
+            ""
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_key}}",
+              "type": "text"
+            },
+            {
+              "key": "token",
+              "value": "{{API_token}}",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "QA New Board",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateNewList",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 200 OK — колонка создана\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "//Вытаскиваем ID новой колонки и записываем его под именем list_id\r",
+              "const jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"list_id\", jsonData.id);\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}lists?token={{API_token}}&key={{API_key}}&name=List1&idBoard={{board_id}}",
+          "host": [
+            "{{base_url}}lists"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "{{API_token}}",
+              "type": "text"
+            },
+            {
+              "key": "key",
+              "value": "{{API_key}}",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "List1",
+              "type": "text"
+            },
+            {
+              "key": "idBoard",
+              "value": "{{board_id}}",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateNewCards",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 200 OK — карточка создана\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "//Вытаскиваем ID новой карточки и записываем его под именем card_id\r",
+              "const jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"card_id\", jsonData.id);\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}cards?token={{API_token}}&key={{API_key}}&name=Купить игру&idList={{list_id}}",
+          "host": [
+            "{{base_url}}cards"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "{{API_token}}"
+            },
+            {
+              "key": "key",
+              "value": "{{API_key}}"
+            },
+            {
+              "key": "name",
+              "value": "Купить игру"
+            },
+            {
+              "key": "idList",
+              "value": "{{list_id}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "EditCard",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 200 OK — карточка успешно обновлена\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "//имя карточки на сервере изменилось на новое\r",
+              "pm.test(\"Имя карточки успешно изменилось\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.name).to.eql(\"Обновлено : Купить дополнение игры\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}cards/{{card_id}}?token={{API_token}}&key={{API_key}}&name=Обновлено : Купить дополнение игры",
+          "host": [
+            "{{base_url}}cards"
+          ],
+          "path": [
+            "{{card_id}}"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "{{API_token}}"
+            },
+            {
+              "key": "key",
+              "value": "{{API_key}}"
+            },
+            {
+              "key": "name",
+              "value": "Обновлено : Купить дополнение игры"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteCard",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Статус ответа 200 OK — карточка успешно удалена\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}cards/{{card_id}}?key={{API_key}}&token={{API_token}}",
+          "host": [
+            "{{base_url}}cards"
+          ],
+          "path": [
+            "{{card_id}}"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_key}}",
+              "type": "text"
+            },
+            {
+              "key": "token",
+              "value": "{{API_token}}",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "API_key",
+      "secret": true
+    },
+    {
+      "key": "API_token",
+      "value": ""
+    },
+    {
+      "key": "list_now",
+      "value": ""
+    },
+    {
+      "key": "board_id",
+      "value": ""
+    },
+    {
+      "key": "list_id",
+      "value": ""
+    },
+    {
+      "key": "card_id",
+      "value": ""
+    }
+  ]
+}
