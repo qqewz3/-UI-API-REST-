@@ -177,21 +177,21 @@ Steam:
 ---
 
 ## Структура проекта
-api-tests/
-|-- collections/
-| |-- Steam.postman_collection.json
-| |-- Trello.postman_collection.json
-|-- environments/
-| |-- trello_example.json # Шаблон для Trello
-| |-- steam_example.json # Шаблон для Steam
-| |-- trello.json # Реальный ключ (в .gitignore)
-| |-- steam.json # Реальный ключ (в .gitignore)
-|-- screenshots/
-| |-- trello_success_run.jpg
-| |-- steam_success_run.jpg
-|-- reports/ # HTML-отчеты (в .gitignore)
-|-- .gitignore
-|-- README.md
+
+- **collections/** — Postman коллекции
+  - `Steam.postman_collection.json`
+  - `Trello.postman_collection.json`
+- **environments/** — Environment-файлы
+  - `trello_example.json` — шаблон для Trello
+  - `steam_example.json` — шаблон для Steam
+  - `trello.json` — реальный ключ (в .gitignore)
+  - `steam.json` — реальный ключ (в .gitignore)
+- **screenshots/** — скриншоты результатов
+  - `trello_success_run.jpg`
+  - `steam_success_run.jpg`
+- **reports/** — HTML-отчеты (в .gitignore)
+- `.gitignore`
+- `README.md`
 
 ---
 
