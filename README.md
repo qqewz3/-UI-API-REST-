@@ -23,8 +23,7 @@
 - Матрицы тест-дизайна: Оптимизация проверок валидации полей ввода.
 
 Ссылка на тестовую документацию:
-https://docs.google.com/document/d/1HjWtKUEnA07tLtiUtwcE1oCJgta-2D0W0XzuEk810/edit?usp=sharing
-
+https://docs.google.com/document/d/1HJwTkUEnaU7tLtiUtwcEI1oCJgta-2DOWd0XzuEk810/edit?tab=t.0
 ---
 
 ## Часть 2: Тестирование API и Автоматизация (Postman + Newman)
@@ -180,18 +179,18 @@ Steam:
 ## Структура проекта
 
 api-tests/
-├── collections/              # Postman коллекции
-│   ├── Steam.postman_collection.json
-│   └── Trello.postman_collection.json
-├── environments/             # Environment-файлы
-│   ├── trello_example.json   # Шаблон для Trello
-│   ├── steam_example.json    # Шаблон для Steam
-│   ├── trello.json           # Реальный ключ (в .gitignore)
-│   └── steam.json            # Реальный ключ (в .gitignore)
-├── screenshots/              # Скриншоты результатов
-│   ├── trello_success_run.jpg
-│   └── steam_success_run.jpg
-├── reports/                  # HTML-отчеты (в .gitignore)
+├── collections/ # Postman коллекции
+│ ├── Steam.postman_collection.json
+│ └── Trello.postman_collection.json
+├── environments/ # Environment-файлы
+│ ├── trello_example.json # Шаблон для Trello
+│ ├── steam_example.json # Шаблон для Steam
+│ ├── trello.json # Реальный ключ (в .gitignore)
+│ └── steam.json # Реальный ключ (в .gitignore)
+├── screenshots/ # Скриншоты результатов
+│ ├── trello_success_run.jpg
+│ └── steam_success_run.jpg
+├── reports/ # HTML-отчеты (в .gitignore)
 ├── .gitignore
 └── README.md
 
