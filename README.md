@@ -206,6 +206,6 @@ Steam:
 
 ## Автор
 
-Ваше Имя
+Илья
 QA-инженер
 GitHub: https://github.com/qqewz3
