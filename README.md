@@ -23,7 +23,7 @@
 - Матрицы тест-дизайна: Оптимизация проверок валидации полей ввода.
 
 Ссылка на тестовую документацию:
-https://docs.google.com/document/d/1HJwTkUEnaU7tLtiUtwcEI1oCJgta-2DOWd0XzuEk810/edit?tab=t.0
+https://docs.google.com/spreadsheets/d/1a55Kn2wGZ_CyprsVW6b19jBIif4MbIuX7i-Mjrsn_l4/edit?gid=0#gid=0
 ---
 
 ## Часть 2: Тестирование API и Автоматизация (Postman + Newman)
